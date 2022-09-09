@@ -1,15 +1,19 @@
 package com.back.domain.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
 @Table(name = "USUARIO")
-public class Usuario {
+public class Usuario implements UserDetails {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,17 +29,45 @@ public class Usuario {
     @Column(name = "SENHA")
     private String senha;
 
-    public Usuario(String nome, String email) {
-        this.nome = nome;
-        this.email = email;
+    @Column(name = "LOGIN")
+    private String login;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "ID_PERFIL")
+    private Perfil perfil;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
+    @Override
+    public String getPassword() {
+        return null;
+    }
 
-//    @Column(name = "VALIDAÇÃO")
-//    private String validacao;
-//
-//    @Column(name = "PERMISSÃO")
-//    private String permissao;
+    @Override
+    public String getUsername() {
+        return null;
+    }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

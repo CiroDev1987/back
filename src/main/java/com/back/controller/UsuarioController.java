@@ -1,11 +1,16 @@
 package com.back.controller;
 
+import com.back.domain.entity.Perfil;
 import com.back.domain.entity.Usuario;
+import com.back.repository.PerfilRepository;
 import com.back.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +22,8 @@ import java.util.Map;
 public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;
+
+    private final PerfilRepository perfilRepository;
 
     @PostMapping("/salvar")
     public Usuario salvar(@RequestBody Usuario usuario) {
@@ -43,4 +50,5 @@ public class UsuarioController {
         result.put("eliminar", Boolean.TRUE);
         return  ResponseEntity.ok(result);
     }
+
 }
