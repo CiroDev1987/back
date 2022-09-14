@@ -1,6 +1,7 @@
 package com.back.domain.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,6 +35,5 @@ public class Usuario {
 
     @Column(name = "VALIDADO")
     private String validado;
-
 
 }

@@ -15,7 +15,7 @@ public class EnvioEmailService {
     private final JavaMailSender mailSender;
 
     public static String novoTitulo(Usuario usuario){
-        return usuario.getNome() + " seu cadastro foi recebido!";
+        return usuario.getName() + " seu cadastro foi recebido!";
 
     }
 
