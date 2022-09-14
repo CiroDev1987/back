@@ -2,6 +2,7 @@ package com.back.controller;
 
 import com.back.domain.entity.Usuario;
 import com.back.repository.UsuarioRepository;
+import com.back.service.EnvioEmailService;
 import com.back.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
@@ -26,6 +27,10 @@ public class UsuarioController {
     private final UsuarioRepository usuarioRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final EnvioEmailService emailService;
+
+
 
     @GetMapping("/buscar")
     public List<Usuario> listarTodos() {
@@ -58,6 +63,14 @@ public class UsuarioController {
         Map<String, Boolean> result = new HashMap<>();
         result.put("eliminar", Boolean.TRUE);
         return ResponseEntity.ok().body(result);
+    }
+
+    public Usuario salvar(Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        Usuario email = this.usuarioRepository.save(usuario);
+        String url = "http://localhost:4200/?DjncdNSnfdsA=" + passwordEncoder.encode(email.getEmail());
+        emailService.enviar(email.getEmail(), "Registro efetuado com sucesso!", url);
+        return email;
     }
 
 }

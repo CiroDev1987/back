@@ -14,11 +14,6 @@ public class EnvioEmailService {
 
     private final JavaMailSender mailSender;
 
-    public static String novoTitulo(Usuario usuario){
-        return usuario.getName() + " seu cadastro foi recebido!";
-
-    }
-
     public void enviar(String para, String titulo, String conteudo) {
         log.info("Enviando email para confirmação de cadastro...");
 
