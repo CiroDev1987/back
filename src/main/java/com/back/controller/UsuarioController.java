@@ -5,12 +5,15 @@ import com.back.repository.UsuarioRepository;
 import com.back.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.codehaus.plexus.resource.loader.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +25,8 @@ public class UsuarioController {
 
     private final UsuarioRepository usuarioRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @GetMapping("/buscar")
     public List<Usuario> listarTodos() {
         return usuarioService.buscarTodos();
@@ -29,30 +34,32 @@ public class UsuarioController {
 
     @PostMapping("/adicionar")
     public Usuario adicionar(@RequestBody Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioService.criar(usuario);
     }
 
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id){
+    public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id) {
         Usuario usuario = usuarioService.buscarPorId(id);
         return ResponseEntity.ok(usuario);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario user){
+    public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario user) {
         user = usuarioService.alterar(id, user);
         return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<Map<String,Boolean>> deletar(@PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity<Map<String, Boolean>> deletar(@PathVariable Long id) throws ResourceNotFoundException {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Não existe usuário com esse ID : " + id));
 
         usuarioRepository.delete(usuario);
         Map<String, Boolean> result = new HashMap<>();
-        result.put("eliminar",Boolean.TRUE);
+        result.put("eliminar", Boolean.TRUE);
         return ResponseEntity.ok().body(result);
     }
+
 }
 
 

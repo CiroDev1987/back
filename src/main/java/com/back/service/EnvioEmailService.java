@@ -23,7 +23,7 @@ public class EnvioEmailService {
         log.info("Enviando email para confirmação de cadastro...");
 
         SimpleMailMessage mensagem = new SimpleMailMessage();
-        mensagem.setFrom("sonyciro0@gmail.com");
+        mensagem.setFrom("sonyciro@gmail.com");
         mensagem.setTo(para);
         mensagem.setSubject(titulo);
         mensagem.setText(conteudo);

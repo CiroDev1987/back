@@ -44,4 +44,12 @@ public class UsuarioService {
         user.setEmail(usuario.getEmail());
     }
 
+//    public Usuario salvar(Usuario usuario) {
+//        usuario.setPassword(criptografia.encriptar(usuario.getPassword()));
+//        Usuario email = converterEntidade.toDto(getInicialRepository().save(usuario));
+//        String url = "http://localhost:4200/?DjncdNSnfdsA=" + criptografia.encriptar(email.getEmail());
+//        emailSenderService.sendSimpleEmail(email.getEmail(), "Registro efetuado com sucesso!", url);
+//        return email;
+//    }
+
 }
