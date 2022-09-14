@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "USUARIO")
-public class Usuario implements UserDetails {
+public class Usuario {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,53 +21,19 @@ public class Usuario implements UserDetails {
     private Long id;
 
     @Column(name = " NOME ")
-    private String nome;
+    private String name;
 
     @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "SENHA")
-    private String senha;
+    private String password;
 
-    @Column(name = "LOGIN")
-    private String login;
+    @Column(name = "ID_PERFIL" )
+    private Long permissao;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "ID_PERFIL")
-    private Perfil perfil;
+    @Column(name = "VALIDADO")
+    private String validado;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
