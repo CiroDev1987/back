@@ -17,7 +17,8 @@ public class Usuario {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "USERS", sequenceName = "USERS", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USERS")
     @Column(name = "id", nullable = false)
     private Long id;
 
