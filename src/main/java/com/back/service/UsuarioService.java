@@ -69,4 +69,34 @@ public class UsuarioService {
         return email;
     }
 
+    public boolean validar(String texto) {
+        Usuario usuario = usuarioRepository.findByEmail(passwordEncoder.encode(texto)).orElse(null);
+        if (usuario != null) {
+            usuario.setValidado("1");
+            usuarioRepository.save(usuario);
+            return true;
+        } else
+            return false;
+    }
+
+    public UsuarioDTO reset(Long Id) {
+
+        Usuario usuario = buscarPorId(Id);
+        usuario.setPassword(passwordEncoder.encode("123456"));
+        return converterEntity.usuarioDTO(usuarioRepository.save(usuario));
+    }
+
+    public UsuarioDTO logar (String email, String password) {
+
+        UsuarioDTO result;
+
+        try {
+            password = passwordEncoder.encode(password);
+            result = converterEntity.usuarioDTO(usuarioRepository.findByEmailAndPassword(email, password));
+            return result;
+        } catch (Exception e) {
+            return new UsuarioDTO();
+        }
+    }
+
 }

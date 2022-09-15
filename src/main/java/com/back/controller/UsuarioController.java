@@ -79,6 +79,20 @@ public class UsuarioController {
         return email;
     }
 
+    @RequestMapping("/validar")
+    public ResponseEntity<Boolean> validar(@RequestParam String email){
+        return ResponseEntity.ok(usuarioService.validar(email));
+    }
+
+    @RequestMapping("/reset")
+    public ResponseEntity<UsuarioDTO> resetar(@RequestParam Long id) {
+        return ResponseEntity.ok(usuarioService.reset(id));
+    }
+
+    @RequestMapping("/entrar")
+    public ResponseEntity<UsuarioDTO> resetar(@RequestParam String email, @RequestParam String password) {
+        return ResponseEntity.ok(usuarioService.logar(email, password));
+    }
 }
 
 
