@@ -90,7 +90,7 @@ public class UsuarioController {
     }
 
     @RequestMapping("/entrar")
-    public ResponseEntity<UsuarioDTO> resetar(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<UsuarioDTO> logar(@RequestParam String email, @RequestParam String password) {
         return ResponseEntity.ok(usuarioService.logar(email, password));
     }
 }
