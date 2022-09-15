@@ -1,5 +1,6 @@
 package com.back.controller;
 
+import com.back.domain.dto.UsuarioDTO;
 import com.back.domain.entity.Usuario;
 import com.back.repository.UsuarioRepository;
 import com.back.service.EnvioEmailService;
@@ -33,8 +34,13 @@ public class UsuarioController {
 
 
     @GetMapping("/buscar")
-    public List<Usuario> listarTodos() {
+    public List<UsuarioDTO> listarTodos() {
         return usuarioService.buscarTodos();
+    }
+
+    @PostMapping("/salvar")
+    public ResponseEntity<UsuarioDTO> registrar(@RequestBody Usuario usuario) {
+        return ResponseEntity.ok(usuarioService.registrar(usuario));
     }
 
     @PostMapping("/adicionar")

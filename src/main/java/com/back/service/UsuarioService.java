@@ -1,11 +1,15 @@
 package com.back.service;
 
+import com.back.convert.ConverterEntity;
+import com.back.domain.dto.UsuarioDTO;
 import com.back.domain.entity.Usuario;
 import com.back.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,15 +21,28 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
+    private final EnvioEmailService emailService;
+
+    private final ConverterEntity converterEntity = new ConverterEntity();
+
 
     public Usuario criar(Usuario usuario) {
         Usuario usuario1 = this.usuarioRepository.save(usuario);
         return usuario1;
     }
 
-    public List<Usuario> buscarTodos() {
+    public List<UsuarioDTO> buscarTodos() {
+        List<UsuarioDTO> visualiza = new ArrayList<>();
         List<Usuario> usuarios =this.usuarioRepository.findAll();
-        return usuarios;
+        usuarios.forEach(t -> {
+            UsuarioDTO usuarioDTO = converterEntity.usuarioDTO(t);
+            usuarioDTO.setDescPermissao();
+            visualiza.add(usuarioDTO);
+        });
+        return visualiza;
+
     }
 
     public Usuario buscarPorId(Long id) {
@@ -44,12 +61,12 @@ public class UsuarioService {
         user.setEmail(usuario.getEmail());
     }
 
-//    public Usuario salvar(Usuario usuario) {
-//        usuario.setPassword(criptografia.encriptar(usuario.getPassword()));
-//        Usuario email = converterEntidade.toDto(getInicialRepository().save(usuario));
-//        String url = "http://localhost:4200/?DjncdNSnfdsA=" + criptografia.encriptar(email.getEmail());
-//        emailSenderService.sendSimpleEmail(email.getEmail(), "Registro efetuado com sucesso!", url);
-//        return email;
-//    }
+    public UsuarioDTO registrar(Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        UsuarioDTO email = converterEntity.usuarioDTO(usuarioRepository.save(usuario));
+        String url = "http://localhost:4200/?DjncdNSnfdsA=" + passwordEncoder.encode(email.getEmail());
+        emailService.enviar(email.getEmail(), "Registrado com sucesso!", url);
+        return email;
+    }
 
 }
